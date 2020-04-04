@@ -4,6 +4,8 @@ from PyQt5.QtWidgets import QWidget, QApplication, QFileDialog
 from PyQt5.uic import loadUi
 from PyQt5 import QtCore
 
+# this is the script which converts 
+import text_to_html
 
 def debug_trace(ui=None):
     from pdb import set_trace
@@ -14,13 +16,25 @@ def debug_trace(ui=None):
 
 class HTMLConverter(QWidget):
     ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
 
     def __init__(self):
         super(HTMLConverter, self).__init__()
         ui_path = os.path.join(self.ROOT_DIR, 'html_converter.ui')
         loadUi(ui_path, self)
-        self.browse_btn.clicked.connect(self.browse)
+        # file_path is the file we want to convert 
+        self.file_path = self.browse_btn.clicked.connect(self.browse)
+        self.convert.clicked.connect(self.convert_to)
+        # self.verify.clicked.connect(self.send_to_C)
         self.file_path = None
+
+    def convert_to(self):
+        # function which converts the text to html
+        text_to_html.to_html(self.file_path)
+
+    def send_to_C(self):
+        pass
+
 
     def browse(self):
         options = QFileDialog.Options()
@@ -34,6 +48,7 @@ class HTMLConverter(QWidget):
             self.file_path = file
             self.path_line_edit.setText(file)
             print(file)
+            return file
 
 
 if __name__ == '__main__':

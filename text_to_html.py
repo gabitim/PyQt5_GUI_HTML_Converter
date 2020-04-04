@@ -11,8 +11,8 @@ def rst2html(source_path):
     # mostly taken from
     # https://github.com/getpelican/pelican/
     pub = docutils.core.Publisher(
-        source_class=docutils.io.FileInput,
-        destination_class=docutils.io.StringOutput)
+    source_class=docutils.io.FileInput,
+    destination_class=docutils.io.StringOutput)
     pub.set_components('standalone', 'restructuredtext', 'html')
     pub.process_programmatic_settings(None, None, None)
     pub.set_source(source_path=str(source_path))
@@ -22,13 +22,14 @@ def rst2html(source_path):
 
     return html
 
-SRC_DIR = Path('.')
-DST_DIR = Path('.')
+def to_html(file_name): 
+    DST_DIR = Path('.')
 
-# file_name is file we need to convert from  browse !!
-file_name = 'plain_text.txt'
+    # file_name is file we need to convert from  browse !!
+    html = rst2html(file_name)
 
-html = rst2html(file_name)
+    with open(DST_DIR / (file_name[:-4] + '.html'), 'w') as f:
+        f.write(html)
 
-with open(DST_DIR / (file_name[:-4] + '.html'), 'w') as f:
-	f.write(html)
+if __name__ == '__main__':
+    to_html('plain_text.txt')

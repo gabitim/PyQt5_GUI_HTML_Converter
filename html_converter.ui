@@ -74,14 +74,14 @@ p, li { white-space: pre-wrap; }
        <enum>QLayout::SetMaximumSize</enum>
       </property>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="convert">
         <property name="text">
          <string>Convert to HTML</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="verify">
         <property name="text">
          <string>Send to C program</string>
         </property>
