@@ -27,9 +27,10 @@ def to_html(file_name):
 
     # file_name is file we need to convert from  browse !!
     html = rst2html(file_name)
-
-    with open(DST_DIR / (file_name[:-4] + '.html'), 'w') as f:
-        f.write(html)
+   
+    return html		
+    #  with open(DST_DIR / (file_name[:-4] + '.html'), 'w') as f:
+    #   f.write(html)
 
 if __name__ == '__main__':
     to_html('plain_text.txt')

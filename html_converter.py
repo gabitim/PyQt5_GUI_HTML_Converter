@@ -1,6 +1,6 @@
 import os
 import sys
-from PyQt5.QtWidgets import QWidget, QApplication, QFileDialog
+from PyQt5.QtWidgets import QWidget, QApplication, QFileDialog, QTextEdit
 from PyQt5.uic import loadUi
 from PyQt5 import QtCore
 
@@ -25,15 +25,20 @@ class HTMLConverter(QWidget):
         # file_path is the file we want to convert 
         self.file_path = self.browse_btn.clicked.connect(self.browse)
         self.convert.clicked.connect(self.convert_to)
-        # self.verify.clicked.connect(self.send_to_C)
+        self.verify.clicked.connect(self.send_to_C)
+        
+        # for writing in the result field
+        
         self.file_path = None
 
     def convert_to(self):
         # function which converts the text to html
-        text_to_html.to_html(self.file_path)
+        html = text_to_html.to_html(self.file_path)
+        print(html)
+        self.output_text.append(str(html))
 
     def send_to_C(self):
-        pass
+        print("uauauau")
 
 
     def browse(self):
