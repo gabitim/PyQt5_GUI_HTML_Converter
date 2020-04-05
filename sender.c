@@ -1,10 +1,11 @@
 // writer process
 
 #include <stdio.h>
+#include <string.h>
 #include <sys/ipc.h>
 #include <sys/msg.h>
 
-#define BUFF_SIZE 2048
+#define BUFF_SIZE 2000
 
 //struct for message queue
 struct mesg_buffer {
@@ -30,13 +31,14 @@ int main()
 	//printf("Write Data : ");
         	
         
-        //strcpy
+        strcpy(message.mesg_text," \0");
+//	printf("Data send is : %s \n", message.mesg_text);
         //printf("name of theaaaaaaaaaaa file: %s\n",name);
 	//msgsnd to send message
 	msgsnd(msgid, &message, sizeof(message), 0);
 
 	//display the message
-	//printf("Data send is : %s \n", message.mesg_text);
+//	printf("Data send is : %s \n", message.mesg_text);
 	
 	return 0;
 
