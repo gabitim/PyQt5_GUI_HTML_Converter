@@ -9,7 +9,7 @@ from ctypes import *
 import sysv_ipc
 
 # this is the script which converts 
-import text_to_html
+import converter
 
 def debug_trace(ui=None):
     from pdb import set_trace
@@ -37,7 +37,7 @@ class HTMLConverter(QWidget):
 
     def convert_to(self):
         # function which converts the text to html
-        self.html = text_to_html.to_html(self.file_path)
+        self.html = converter.to_html(self.file_path)
        
         self.output_text.append(str(self.html))
 
@@ -53,13 +53,17 @@ class HTMLConverter(QWidget):
             name = "simplehtml.txt"
             f = open(name, "r")
             test = f.read()
-            sender.main(name[str(:-4]))        
+            sender.main(str(name[:-4]))        
   
             # put the key (integer) as parameter (in this case: -1)
             message_queue = sysv_ipc.MessageQueue(-1)
-            send_message(message_queue, test)
             
+            send_message(message_queue, str(name[:-4]))
+            send_message(message_queue, test)
+            print("aaa")
+
             receiver.main() 
+            print("bbb")
 
         except sysv_ipc.ExistentialError:
             print("Message queue not initialized. Please run the C program first")
