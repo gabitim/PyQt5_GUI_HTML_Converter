@@ -4,6 +4,10 @@ from PyQt5.QtWidgets import QWidget, QApplication, QFileDialog, QTextEdit
 from PyQt5.uic import loadUi
 from PyQt5 import QtCore
 
+# for calling c function from script
+from ctypes import *
+import sysv_ipc
+
 # this is the script which converts 
 import text_to_html
 
@@ -16,7 +20,7 @@ def debug_trace(ui=None):
 
 class HTMLConverter(QWidget):
     ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
- 
+    html = ''
 
     def __init__(self):
         super(HTMLConverter, self).__init__()
@@ -33,12 +37,32 @@ class HTMLConverter(QWidget):
 
     def convert_to(self):
         # function which converts the text to html
-        html = text_to_html.to_html(self.file_path)
-        print(html)
-        self.output_text.append(str(html))
+        self.html = text_to_html.to_html(self.file_path)
+       
+        self.output_text.append(str(self.html))
 
     def send_to_C(self):
-        print("uauauau")
+        
+        sender = CDLL("./sender.so")
+        receiver = CDLL("./receiver.so")
+        
+        sender.connect()
+        receiver.connect()
+        
+        try:
+            name = "simplehtml.txt"
+            f = open(name, "r")
+            test = f.read()
+            sender.main(name[str(:-4]))        
+  
+            # put the key (integer) as parameter (in this case: -1)
+            message_queue = sysv_ipc.MessageQueue(-1)
+            send_message(message_queue, test)
+            
+            receiver.main() 
+
+        except sysv_ipc.ExistentialError:
+            print("Message queue not initialized. Please run the C program first")
 
 
     def browse(self):
@@ -54,6 +78,11 @@ class HTMLConverter(QWidget):
             self.path_line_edit.setText(file)
             print(file)
             return file
+
+
+def send_message(message_queue, message):
+    message_queue.send(message)
+    
 
 
 if __name__ == '__main__':

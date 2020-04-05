@@ -7,7 +7,7 @@
 // structure for message queue
 struct mesg_buffer {
     long mesg_type;
-    char mesg_text[1000];
+    char mesg_text[10000];
 } message;
 
 int main()
@@ -28,10 +28,11 @@ int main()
 
     // msgrcv to receive message
     msgrcv(msgid, &message, sizeof(message), 1, 0);
+    printf("the message: \n %s",message.mesg_text);
 
     // display the message
 
-    file = fopen("html_converter.html","w");
+    file = fopen(".html","w");
     if(file == NULL)
         {
             printf("Error: file could not be open\n");
